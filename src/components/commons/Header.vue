@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import MenuHeader from '@/components/common/MenuHeader.vue'
+import MenuHeader from '@/components/commons/MenuHeader.vue'
 import { PATHS } from '@/router/paths'
 import { useAuthenticationStore } from '@/stores/useAuthenticationStore'
 import { ref } from 'vue'
@@ -10,6 +10,8 @@ const authenticationStore = useAuthenticationStore()
 authenticationStore.loadFromServer()
 const infoRef = ref<InstanceType<typeof AvatarDrawers> | null>(null)
 
+const isLogged = ref(true)
+
 const router = useRouter()
 
 const handleOpenDrawer = () => {
@@ -19,11 +21,11 @@ const handleOpenDrawer = () => {
 
 <template>
     <div class='header-content'>
-        <template v-if='authenticationStore.authenticated'>
+        <template v-if='isLogged'>
             <el-menu class='menu' mode='horizontal' :ellipsis='false' background-color='#fff' menu-trigger='click'
                      :default-active='$route.path' >
                 <el-menu-item class='desktop-logo-container no-hover' @click='router.push("/")'>
-                    <img src='' class='desktop-logo' alt='logo-app' />
+                    <img src='https://courses.uet.vnu.edu.vn/pluginfile.php/1/theme_lambda/logo/1716634802/logo-new.jpg' class='desktop-logo' alt='logo-app' />
                 </el-menu-item>
 
                 <div class='flex-grow'></div>
@@ -38,23 +40,21 @@ const handleOpenDrawer = () => {
 
         <template v-else>
             <el-menu class='menu' mode='horizontal' :ellipsis='false' background-color='#fff' menu-trigger='click'
-                     :default-active='$route.path' router>
-                <el-menu-item class='desktop-logo-container no-hover' :route='PATHS.HOME' index='1'>
+                     :default-active='$route.path' >
+                <el-menu-item class='desktop-logo-container no-hover' @click='router.push("/register")' >
                     <img src='' class='desktop-logo' alt='logo-app' />
                 </el-menu-item>
                 <div class='flex-grow'></div>
                 <el-menu-item
                     class='no-hover'
-                    :route='PATHS.REGISTER'
-                    :index='PATHS.REGISTER'
+                    @click='router.push("/register")'
                 >
                     <el-button plain>Đăng ký</el-button>
                 </el-menu-item>
 
                 <el-menu-item
                     class='no-hover'
-                    :route='PATHS.LOGIN'
-                    :index='PATHS.LOGIN'
+                    @click='router.push("/login")'
                 >
                     <el-button type='primary'>Đăng nhập</el-button>
                 </el-menu-item>
@@ -68,7 +68,7 @@ const handleOpenDrawer = () => {
 <style scoped>
 .desktop-logo {
     width: auto;
-    height: 65px;
+    height: 50px;
 }
 
 .menu {

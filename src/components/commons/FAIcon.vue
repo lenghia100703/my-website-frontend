@@ -4,7 +4,7 @@ import { computed } from 'vue'
 
 const props = withDefaults(
     defineProps<{
-        customStyle?: () => {}
+        customStyle?: () => Record<string, string>
         icon?: string
         title?: string
         color?: string
@@ -48,7 +48,7 @@ function onClick() {
     <span
         :class="`icon ${disabled ? 'disabled' : 'enabled'}`"
         @click='onClick'
-        :style='{ color: displayColor, cursor, ...customStyle }'
+        :style='{ color: displayColor, cursor, ...customStyle() }'
     >
     <el-tooltip v-if='displayTitle' placement='top' :content='displayTitle'>
       <i :class='icon' :style='{ fontSize, color: displayColor }' />
